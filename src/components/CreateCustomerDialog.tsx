@@ -25,19 +25,27 @@ const useStyles = makeStyles({
 })
 
 export default function CreateCustomerDialog({
-  onSubmit
+  open,
+  setOpen,
+  onSubmit,
+  customerToEdit
 }: {
+  open: boolean
+  setOpen: (open: boolean) => void
   onSubmit: SubmitHandler<Customer>
+  customerToEdit?: Customer
 }) {
-  const { register, handleSubmit } = useForm<Customer>()
+  const { register, handleSubmit } = useForm<Customer>({
+    values: customerToEdit
+  })
   const styles = useStyles()
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={(_event, data) => setOpen(data.open)}>
       <DialogTrigger disableButtonEnhancement>
         <Button>Voeg klant toe</Button>
       </DialogTrigger>
-      <DialogSurface>
+      <DialogSurface style={{ height: "100%" }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogBody>
             <DialogTitle>Maak klant</DialogTitle>
@@ -59,11 +67,13 @@ export default function CreateCustomerDialog({
               </Field>
             </DialogContent>
             <DialogActions>
-              <DialogTrigger disableButtonEnhancement>
-                <Button appearance="secondary" type="button">
-                  Sluit
-                </Button>
-              </DialogTrigger>
+              <Button
+                appearance="secondary"
+                type="button"
+                onClick={() => setOpen(false)}
+              >
+                Sluit
+              </Button>
               <DialogTrigger disableButtonEnhancement>
                 <Button type="submit" appearance="primary">
                   Voeg toe

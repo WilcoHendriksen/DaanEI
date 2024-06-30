@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom"
-import Root from "./Route"
+import Root from "./Root"
 import StartList from "./StartList"
-import CreateList from "./CreateList"
+import DeliveryDates from "./DeliveryDates"
 import CustomerList from "./CustomerList"
 
 export const router = createBrowserRouter(
@@ -15,8 +15,8 @@ export const router = createBrowserRouter(
           element: <div>home</div>
         },
         {
-          path: "create-list",
-          element: <CreateList />
+          path: "delivery-dates",
+          element: <DeliveryDates />
         },
         {
           path: "start-list",
