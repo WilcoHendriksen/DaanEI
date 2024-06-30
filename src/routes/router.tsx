@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom"
 import Root from "./Route"
 import StartList from "./StartList"
 import CreateList from "./CreateList"
+import CustomerList from "./CustomerList"
 
 export const router = createBrowserRouter(
   [
@@ -20,6 +21,10 @@ export const router = createBrowserRouter(
         {
           path: "start-list",
           element: <StartList />
+        },
+        {
+          path: "customers",
+          element: <CustomerList />
         }
       ]
     }
