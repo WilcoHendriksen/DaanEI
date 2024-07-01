@@ -8,7 +8,7 @@ const useStyles = makeStyles({
     justifyContent: "center"
   }
 })
-export default function NoCustomers() {
+export default function NoCustomers({ text }: { text: string }) {
   const styles = useStyles()
-  return <div className={styles.page}>Geen klanten</div>
+  return <div className={styles.page}>{text}</div>
 }

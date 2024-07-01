@@ -1,6 +1,6 @@
 import { makeStyles } from "@fluentui/react-components"
 import Loading from "../components/layout/Loading"
-import NoCustomers from "../components/layout/NoCustomers"
+import EmptyState from "../components/layout/EmptyState"
 import CreateCustomerDialog from "../components/CreateCustomerDialog"
 import { SubmitHandler } from "react-hook-form"
 import Customer from "../components/Customer"
@@ -62,7 +62,7 @@ export default function CustomerList() {
     <div className={styles.page}>
       <div className={styles.customerList}>
         {isLoading && <Loading />}
-        {!isLoading && !data && <NoCustomers />}
+        {!isLoading && !data && <EmptyState text="Geen klanten" />}
         {!isLoading &&
           data &&
           customersToRender?.map((c: Customer) => (
