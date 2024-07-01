@@ -9,11 +9,11 @@ import {
   makeStyles
 } from "@fluentui/react-components"
 import { DismissRegular } from "@fluentui/react-icons"
-import { ReactNode, lazy, useState } from "react"
+import { ReactNode, useState } from "react"
 import { router } from "./routes/router"
 import Header from "./components/Header"
+import versionFile from "./assets/version.json"
 
-const versionFile = await lazy(() => import(`./${"assets"}/version.json`))
 const useStyles = makeStyles({
   app: {
     display: "flex",
@@ -88,7 +88,7 @@ export default function MainMenu({ children }: { children: ReactNode }) {
               Klanten
             </MenuItem>
           </MenuList>
-          <div className={styles.version}>{JSON.stringify(versionFile)}</div>
+          <div className={styles.version}>version: {versionFile.version}</div>
         </DrawerBody>
       </Drawer>
       <div className={styles.mainSection}>
