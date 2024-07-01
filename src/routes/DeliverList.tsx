@@ -1,6 +1,8 @@
+import AddCustomerDialog from "../components/AddCustomerDialog"
 import { Button, Title3, makeStyles } from "@fluentui/react-components"
-import { AddFilled } from "@fluentui/react-icons"
-import { useParams, Link } from "react-router-dom"
+import { AddFilled, ArrowLeftFilled } from "@fluentui/react-icons"
+import { useState } from "react"
+import { useParams, useNavigate } from "react-router-dom"
 
 const useStyles = makeStyles({
   page: {
@@ -34,6 +36,9 @@ const useStyles = makeStyles({
     height: "48px"
   },
   buttonBar: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "16px",
     position: "absolute",
     right: "16px",
     bottom: "16px"
@@ -43,15 +48,16 @@ const useStyles = makeStyles({
 export default function DeliverList() {
   let params = useParams()
   let styles = useStyles()
+  const navigate = useNavigate()
+  const [open, setOpen] = useState(false)
 
   const addCustomer = () => {
-    alert("add")
+    setOpen(true)
   }
   return (
     <div className={styles.page}>
       <div className={styles.title}>
         <Title3>{params.date}</Title3>
-        <Link to="/delivery-dates">back</Link>
       </div>
       <div className={styles.deliverList}>
         <div className={styles.customerToDeliver}>
@@ -61,11 +67,19 @@ export default function DeliverList() {
       <div className={styles.buttonBar}>
         <Button
           type="button"
+          onClick={() => navigate("/delivery-dates")}
+          shape="circular"
+          size="large"
+          icon={<ArrowLeftFilled />}
+        />
+        <Button
+          type="button"
           onClick={() => addCustomer()}
           shape="circular"
           size="large"
           icon={<AddFilled />}
         />
+        <AddCustomerDialog open={open} setOpen={setOpen} onSubmit={() => {}} />
       </div>
     </div>
   )

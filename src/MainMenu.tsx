@@ -12,7 +12,6 @@ import { DismissRegular } from "@fluentui/react-icons"
 import { ReactNode, useState } from "react"
 import { router } from "./routes/router"
 import Header from "./components/Header"
-import versionFile from "./assets/version.json"
 
 const useStyles = makeStyles({
   app: {
@@ -88,7 +87,7 @@ export default function MainMenu({ children }: { children: ReactNode }) {
               Klanten
             </MenuItem>
           </MenuList>
-          <div className={styles.version}>version: {versionFile.version}</div>
+          <div className={styles.version}>version: {""}</div>
         </DrawerBody>
       </Drawer>
       <div className={styles.mainSection}>
