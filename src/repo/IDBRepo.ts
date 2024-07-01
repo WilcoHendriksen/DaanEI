@@ -34,13 +34,13 @@ export async function createOrOpenDatabase() {
   })
 }
 
-async function readDeliverDates(): Promise<string[]> {
-  const db = await createOrOpenDatabase()
-  let items = await db.getAll("deliverDate")
-  let retVal: string[] = []
-  items.forEach((item) => {
-    retVal.push(item)
-  })
-  db.close()
-  return retVal
-}
+// async function readDeliverDates(): Promise<string[]> {
+//   const db = await createOrOpenDatabase()
+//   let items = await db.getAll("deliverDate")
+//   let retVal: string[] = []
+//   items.forEach((item) => {
+//     retVal.push(item)
+//   })
+//   db.close()
+//   return retVal
+// }
