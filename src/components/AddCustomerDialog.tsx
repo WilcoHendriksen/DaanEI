@@ -1,4 +1,3 @@
-import Customer from "../components/Customer"
 import Loading from "../components/layout/Loading"
 import useCustomers from "../queries/useCustomers"
 import {
