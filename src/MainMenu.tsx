@@ -9,10 +9,11 @@ import {
   makeStyles
 } from "@fluentui/react-components"
 import { DismissRegular } from "@fluentui/react-icons"
-import { ReactNode, useState } from "react"
+import { ReactNode, lazy, useState } from "react"
 import { router } from "./routes/router"
 import Header from "./components/Header"
 
+const versionFile = await lazy(() => import(`./${"assets"}/version.json`))
 const useStyles = makeStyles({
   app: {
     display: "flex",
@@ -24,6 +25,19 @@ const useStyles = makeStyles({
     flexDirection: "column",
     justifyItems: "stretch",
     alignItems: "stretch"
+  },
+  drawerBody: {
+    display: "flex",
+    flex: "1",
+    flexDirection: "column"
+  },
+  menuList: {
+    display: "flex",
+    flex: "1"
+  },
+  version: {
+    display: "flex",
+    flex: "0"
   }
 })
 
@@ -57,8 +71,8 @@ export default function MainMenu({ children }: { children: ReactNode }) {
             Menu
           </DrawerHeaderTitle>
         </DrawerHeader>
-        <DrawerBody>
-          <MenuList>
+        <DrawerBody className={styles.drawerBody}>
+          <MenuList className={styles.menuList}>
             <MenuItem onClick={async () => await NavigateAway("/")}>
               Home
             </MenuItem>
@@ -74,6 +88,7 @@ export default function MainMenu({ children }: { children: ReactNode }) {
               Klanten
             </MenuItem>
           </MenuList>
+          <div className={styles.version}>{JSON.stringify(versionFile)}</div>
         </DrawerBody>
       </Drawer>
       <div className={styles.mainSection}>
