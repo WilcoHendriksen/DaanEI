@@ -7,9 +7,9 @@ import {
   DialogSurface,
   DialogTitle,
   DialogTrigger,
-  Field
+  Field,
+  Input
 } from "@fluentui/react-components"
-import { DatePicker } from "@fluentui/react-datepicker-compat"
 import { SubmitHandler, useForm } from "react-hook-form"
 
 export default function SelectDeliveryDateDialog({
@@ -30,7 +30,7 @@ export default function SelectDeliveryDateDialog({
             <DialogTitle>Selecteer een datum</DialogTitle>
             <DialogContent>
               <Field label="Datum">
-                <DatePicker {...register("date")} />
+                <Input {...register("date")} />
               </Field>
             </DialogContent>
             <DialogActions>
