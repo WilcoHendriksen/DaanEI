@@ -12,14 +12,14 @@ import {
 } from "@fluentui/react-components"
 import { SubmitHandler, useForm } from "react-hook-form"
 
-export default function SelectDeliveryDateDialog({
+export default function CreateDeliveryDateDialog({
   open,
   setOpen,
   onSubmit
 }: {
   open: boolean
   setOpen: (open: boolean) => void
-  onSubmit: SubmitHandler<{ date: string }>
+  onSubmit: SubmitHandler<DeliverDate>
 }) {
   const { register, handleSubmit } = useForm<{ date: string }>()
   return (
