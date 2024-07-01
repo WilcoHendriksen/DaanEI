@@ -1,6 +1,7 @@
+import Loading from "../components/layout/Loading"
+import useCustomers from "../queries/useCustomers"
 import {
   Button,
-  Checkbox,
   Dialog,
   DialogActions,
   DialogBody,
@@ -20,51 +21,55 @@ const useStyles = makeStyles({
     flexDirection: "column",
     padding: "16px",
     gap: "16px",
-    flex: "1"
+    flex: "1",
+    overflowY: "hidden"
+  },
+  selectList: {
+    display: "flex",
+    flex: "1",
+    flexDirection: "column",
+    overflowY: "auto"
+  },
+  customer: {
+    height: "48px",
+    display: "flex",
+    flex: "1",
+    flexDirection: "column",
+    overflowY: "auto"
   }
 })
 
 export default function CreateCustomerDialog({
   open,
   setOpen,
-  onSubmit,
-  customerToEdit
+  onSubmit
 }: {
   open: boolean
   setOpen: (open: boolean) => void
   onSubmit: SubmitHandler<Customer>
-  customerToEdit?: Customer
 }) {
-  const { register, handleSubmit } = useForm<Customer>({
-    values: customerToEdit
-  })
+  const { register, handleSubmit } = useForm<Customer>()
   const styles = useStyles()
+  const { isLoading, data } = useCustomers()
 
   return (
     <Dialog open={open} onOpenChange={(_event, data) => setOpen(data.open)}>
-      <DialogTrigger disableButtonEnhancement>
-        <Button>Maak een klant</Button>
-      </DialogTrigger>
       <DialogSurface style={{ height: "100%" }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogBody>
             <DialogTitle>Maak klant</DialogTitle>
             <DialogContent className={styles.form}>
-              <Field label="Naam">
-                <Input {...register("name")} />
-              </Field>
-              <Field label="Adres">
-                <Input {...register("address")} />
-              </Field>
-              <Field label="Telefoon nummer">
-                <Input type="number" {...register("phoneNumber")} />
-              </Field>
-              <Field label="Aantal eieren">
+              <Field label="Aantal">
                 <Input type="number" {...register("amount")} />
               </Field>
-              <Field label="Favoriet">
-                <Checkbox {...register("isFavorite")} />
-              </Field>
+              {isLoading && <Loading />}
+              <div className={styles.selectList}>
+                {data?.map((c) => (
+                  <div className={styles.customer}>
+                    <p>{c.name}</p>
+                  </div>
+                ))}
+              </div>
             </DialogContent>
             <DialogActions>
               <Button

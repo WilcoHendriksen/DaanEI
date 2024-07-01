@@ -29,10 +29,17 @@ const useStyles = makeStyles({
   dateItem: {
     display: "flex",
     alignItems: "center",
-    padding: "12px",
     borderBottom: "1px solid var(--colorNeutralBackground1Selected)",
     "&:hover": {
       backgroundColor: "darkgray"
+    },
+    "& > p": {
+      display: "flex",
+      margin: "0px",
+      paddingLeft: "16px",
+      flex: "1",
+      height: "64px",
+      alignItems: "center"
     }
   }
 })
@@ -68,10 +75,7 @@ export default function DeliveryDates() {
           !isLoading &&
           data.map((deliverDate) => (
             <div key={deliverDate.date} className={styles.dateItem}>
-              <p
-                style={{ flex: "1", height: "16px" }}
-                onClick={() => gotoDeliverList(deliverDate.date)}
-              >
+              <p onClick={() => gotoDeliverList(deliverDate.date)}>
                 {deliverDate.date}
               </p>
               <div>
