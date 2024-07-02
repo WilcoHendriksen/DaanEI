@@ -11,10 +11,8 @@ import {
   Field,
   Input,
   Select,
-  ToggleButton,
   makeStyles
 } from "@fluentui/react-components"
-import { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 
 const useStyles = makeStyles({
@@ -42,7 +40,6 @@ export default function CreateCustomerDialog({
     values: customerToEdit
   })
   const styles = useStyles()
-  const [paymentText, setPaymentText] = useState<Payment>("tikkie")
   return (
     <Dialog open={open} onOpenChange={(_event, data) => setOpen(data.open)}>
       <DialogTrigger disableButtonEnhancement>
