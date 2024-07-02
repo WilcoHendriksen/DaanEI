@@ -51,7 +51,7 @@ export default function Customer({
       />
       <div className={styles.grid}>
         <div className={styles.text}>{customer.name}</div>
-        <div className={styles.text}>eieren: {customer.amount}</div>
+        <div className={styles.text}>{customer.amount}</div>
         <div className={styles.text}>{customer.phoneNumber}</div>
         <div className={styles.text}>{customer.address}</div>
       </div>

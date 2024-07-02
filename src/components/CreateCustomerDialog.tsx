@@ -10,8 +10,11 @@ import {
   DialogTrigger,
   Field,
   Input,
+  Select,
+  ToggleButton,
   makeStyles
 } from "@fluentui/react-components"
+import { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 
 const useStyles = makeStyles({
@@ -39,7 +42,7 @@ export default function CreateCustomerDialog({
     values: customerToEdit
   })
   const styles = useStyles()
-
+  const [paymentText, setPaymentText] = useState<Payment>("tikkie")
   return (
     <Dialog open={open} onOpenChange={(_event, data) => setOpen(data.open)}>
       <DialogTrigger disableButtonEnhancement>
@@ -59,8 +62,14 @@ export default function CreateCustomerDialog({
               <Field label="Telefoon nummer">
                 <Input type="number" {...register("phoneNumber")} />
               </Field>
-              <Field label="Aantal eieren">
+              <Field label="Standaard aantal eieren">
                 <Input type="number" {...register("amount")} />
+              </Field>
+              <Field label="Standaard betaalmethode">
+                <Select {...register("payment")}>
+                  <option>tikkie</option>
+                  <option>contant</option>
+                </Select>
               </Field>
               <Field label="Favoriet">
                 <Checkbox {...register("isFavorite")} />
