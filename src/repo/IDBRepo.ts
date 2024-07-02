@@ -1,4 +1,4 @@
-import { IDBPDatabase, openDB } from "idb"
+import { IDBPDatabase, openDB, deleteDB } from "idb"
 
 const databaseName = "DaanEI_db"
 const databaseVersion = 1
@@ -18,6 +18,9 @@ async function createStore(
     keyPath: key
   })
   objectStore.createIndex("key", key, { unique: true })
+  if (store === "order") {
+    objectStore.createIndex("date", "date", { unique: false })
+  }
 }
 
 /**
@@ -34,13 +37,10 @@ export async function createOrOpenDatabase() {
   })
 }
 
-// async function readDeliverDates(): Promise<string[]> {
-//   const db = await createOrOpenDatabase()
-//   let items = await db.getAll("deliverDate")
-//   let retVal: string[] = []
-//   items.forEach((item) => {
-//     retVal.push(item)
-//   })
-//   db.close()
-//   return retVal
-// }
+/**
+ * deletes the created indexedDB database
+ */
+export async function recreatedDB() {
+  await deleteDB(databaseName)
+  await createOrOpenDatabase()
+}

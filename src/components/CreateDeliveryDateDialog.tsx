@@ -30,7 +30,7 @@ export default function CreateDeliveryDateDialog({
             <DialogTitle>Selecteer een datum</DialogTitle>
             <DialogContent>
               <Field label="Datum">
-                <Input {...register("date")} />
+                <Input type="date" {...register("date")} />
               </Field>
             </DialogContent>
             <DialogActions>

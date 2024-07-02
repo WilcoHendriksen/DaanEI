@@ -12,6 +12,7 @@ import { DismissRegular } from "@fluentui/react-icons"
 import { ReactNode, useState } from "react"
 import { router } from "./routes/router"
 import Header from "./components/Header"
+import { recreatedDB } from "@/repo/IDBRepo"
 
 const useStyles = makeStyles({
   app: {
@@ -36,6 +37,7 @@ const useStyles = makeStyles({
   },
   version: {
     display: "flex",
+    flexDirection: "column",
     flex: "0"
   }
 })
@@ -48,7 +50,11 @@ export default function MainMenu({ children }: { children: ReactNode }) {
     setIsOpen(false)
     router.navigate(path)
   }
-  console.log(import.meta.env)
+
+  const removeAndCreateDB = async () => {
+    await recreatedDB()
+  }
+
   return (
     <div className={styles.app}>
       <Drawer
@@ -81,13 +87,19 @@ export default function MainMenu({ children }: { children: ReactNode }) {
             <MenuItem
               onClick={async () => await NavigateAway("/delivery-dates")}
             >
-              Maak lijstje
+              Bezorglijsten
             </MenuItem>
             <MenuItem onClick={async () => await NavigateAway("/customers")}>
               Klanten
             </MenuItem>
           </MenuList>
           <div className={styles.version}>
+            <Button
+              style={{ backgroundColor: "#f00" }}
+              onClick={async () => await removeAndCreateDB()}
+            >
+              recreate database
+            </Button>
             version: {import.meta.env.VITE_VERSION}
           </div>
         </DrawerBody>

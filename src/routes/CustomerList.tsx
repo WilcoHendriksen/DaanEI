@@ -62,7 +62,7 @@ export default function CustomerList() {
     <div className={styles.page}>
       <div className={styles.customerList}>
         {isLoading && <Loading />}
-        {!isLoading && !data && <EmptyState text="Geen klanten" />}
+        {!isLoading && !data?.length && <EmptyState text="Geen klanten" />}
         {!isLoading &&
           data &&
           customersToRender?.map((c: Customer) => (

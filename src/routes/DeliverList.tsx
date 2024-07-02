@@ -1,8 +1,13 @@
-import AddCustomerDialog from "../components/AddCustomerDialog"
+import useOrder from "@/queries/useOrders"
+import AddCustomerDialog from "../components/AddOrderDialog"
 import { Button, Title3, makeStyles } from "@fluentui/react-components"
 import { AddFilled, ArrowLeftFilled } from "@fluentui/react-icons"
 import { useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
+import Loading from "@/components/layout/Loading"
+import { createOrder, deleteOrder } from "@/repo/OrderRepo"
+import Order from "@/components/Order"
+import EmptyState from "@/components/layout/EmptyState"
 
 const useStyles = makeStyles({
   page: {
@@ -32,8 +37,9 @@ const useStyles = makeStyles({
     alignItems: "center",
     borderBottom: "1px solid var(--colorNeutralBackground1Selected)"
   },
-  text: {
-    height: "48px"
+  order: {
+    height: "48px",
+    backgroundColor: "green"
   },
   buttonBar: {
     display: "flex",
@@ -50,19 +56,48 @@ export default function DeliverList() {
   let styles = useStyles()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
+  const { isLoading, data, refetch } = useOrder(params.date!)
 
-  const addCustomer = () => {
+  const openOrderDialog = () => {
     setOpen(true)
   }
+
+  const addOrder = async (customer: Customer, amount: number) => {
+    await createOrder({
+      date: params.date!,
+      customer: customer,
+      name: customer.name,
+      amount: amount,
+      hasPaid: false,
+      isDelivered: false,
+      payment: customer.payment
+    })
+    await refetch()
+  }
+
+  const onDeleteOrder = async (order: Order) => {
+    await deleteOrder(order)
+    await refetch()
+  }
+
   return (
     <div className={styles.page}>
       <div className={styles.title}>
-        <Title3>{params.date}</Title3>
+        <Title3>Bezorglijst: {params.date}</Title3>
       </div>
       <div className={styles.deliverList}>
-        <div className={styles.customerToDeliver}>
-          <p className={styles.text}>item1</p>
-        </div>
+        {isLoading && <Loading />}
+        {!isLoading && !data?.length && (
+          <EmptyState text="Geen bezorg orders" />
+        )}
+        {!isLoading &&
+          data?.map((order) => (
+            <Order
+              key={order.name}
+              order={order}
+              onDelete={() => onDeleteOrder(order)}
+            />
+          ))}
       </div>
       <div className={styles.buttonBar}>
         <Button
@@ -74,12 +109,12 @@ export default function DeliverList() {
         />
         <Button
           type="button"
-          onClick={() => addCustomer()}
+          onClick={() => openOrderDialog()}
           shape="circular"
           size="large"
           icon={<AddFilled />}
         />
-        <AddCustomerDialog open={open} setOpen={setOpen} onSubmit={() => {}} />
+        <AddCustomerDialog open={open} setOpen={setOpen} onSave={addOrder} />
       </div>
     </div>
   )
