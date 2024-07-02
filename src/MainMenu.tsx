@@ -48,7 +48,7 @@ export default function MainMenu({ children }: { children: ReactNode }) {
     setIsOpen(false)
     router.navigate(path)
   }
-
+  console.log(import.meta.env)
   return (
     <div className={styles.app}>
       <Drawer
@@ -87,7 +87,9 @@ export default function MainMenu({ children }: { children: ReactNode }) {
               Klanten
             </MenuItem>
           </MenuList>
-          <div className={styles.version}>version: {""}</div>
+          <div className={styles.version}>
+            version: {import.meta.env.VITE_VERSION}
+          </div>
         </DrawerBody>
       </Drawer>
       <div className={styles.mainSection}>
