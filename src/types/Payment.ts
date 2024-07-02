@@ -1,0 +1,1 @@
+type Payment = "tikkie" | "contant"

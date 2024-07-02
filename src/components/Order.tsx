@@ -1,10 +1,5 @@
 import { Avatar, Button, makeStyles } from "@fluentui/react-components"
-import {
-  DeleteFilled,
-  EditFilled,
-  StarFilled,
-  StarRegular
-} from "@fluentui/react-icons"
+import { DeleteFilled, StarFilled, StarRegular } from "@fluentui/react-icons"
 
 const useStyles = makeStyles({
   main: {
@@ -27,22 +22,20 @@ const useStyles = makeStyles({
     alignItems: "center"
   }
 })
-export default function Customer({
-  customer,
-  onDelete,
-  onEdit
+export default function Order({
+  order,
+  onDelete
 }: {
-  customer: Customer
+  order: Order
   onDelete: () => void
-  onEdit: () => void
 }) {
   const styles = useStyles()
   return (
     <div className={styles.main}>
       <Avatar
-        name={customer.name}
+        name={order.name}
         badge={{
-          icon: customer.isFavorite ? (
+          icon: order.customer.isFavorite ? (
             <StarFilled color="yellow" />
           ) : (
             <StarRegular color="yellow" />
@@ -50,24 +43,19 @@ export default function Customer({
         }}
       />
       <div className={styles.grid}>
-        <div className={styles.text}>{customer.name}</div>
-        <div className={styles.text}>eieren: {customer.amount}</div>
-        <div className={styles.text}>{customer.phoneNumber}</div>
-        <div className={styles.text}>{customer.address}</div>
+        <div className={styles.text}>{order.name}</div>
+        <div className={styles.text}>Aantal: {order.amount}</div>
+        <div className={styles.text}>{order.customer.address}</div>
+        <div className={styles.text}>
+          Bedrag: € {(order.amount * 0.22).toFixed(2)}
+        </div>
       </div>
       <Button
-        size="large"
         shape="circular"
-        icon={<EditFilled />}
-        onClick={onEdit}
-      />
-      <Button
-        style={{ marginLeft: "16px" }}
         size="large"
-        shape="circular"
         icon={<DeleteFilled />}
         onClick={onDelete}
-      />
+      ></Button>
     </div>
   )
 }
