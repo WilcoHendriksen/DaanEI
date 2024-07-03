@@ -1,13 +1,11 @@
-import { Avatar, Button, makeStyles } from "@fluentui/react-components"
+import { Button, makeStyles } from "@fluentui/react-components"
 import {
   DeleteFilled,
   MailCheckmarkRegular,
   MailDismissRegular,
   MoneyOffRegular,
   MoneyRegular,
-  PaymentRegular,
-  StarFilled,
-  StarRegular
+  PaymentRegular
 } from "@fluentui/react-icons"
 
 const useStyles = makeStyles({
