@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router-dom"
 import Root from "./Root"
-import StartList from "./StartList"
 import DeliveryDates from "./DeliveryDates"
 import CustomerList from "./CustomerList"
 import DeliverList from "./DeliverList"
@@ -18,10 +17,6 @@ export const router = createBrowserRouter(
         {
           path: "delivery-dates",
           element: <DeliveryDates />
-        },
-        {
-          path: "start-list",
-          element: <StartList />
         },
         {
           path: "customers",

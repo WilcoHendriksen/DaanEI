@@ -15,6 +15,7 @@ import {
   makeStyles,
   mergeClasses
 } from "@fluentui/react-components"
+import EmptyState from "@/components/layout/EmptyState"
 
 const useStyles = makeStyles({
   form: {
@@ -86,7 +87,7 @@ export default function AddOrderDialog({
       >
         <form onSubmit={(e) => onSaveOrder(e)}>
           <DialogBody>
-            <DialogTitle>Maak klant</DialogTitle>
+            <DialogTitle>Voeg een order toe</DialogTitle>
             <DialogContent className={styles.form}>
               <Field label="Aantal">
                 <Input
@@ -95,20 +96,24 @@ export default function AddOrderDialog({
                   onChange={(e) => onAmountChange(parseInt(e.target.value))}
                 />
               </Field>
-              {isLoading && <Loading />}
               <div className={styles.selectList}>
-                {data?.map((c) => (
-                  <div
-                    key={c.name}
-                    className={mergeClasses(
-                      styles.customer,
-                      selectedCustomer?.name === c.name && styles.isSelected
-                    )}
-                    onClick={() => onCustomerClick(c)}
-                  >
-                    <p style={{ margin: "0px" }}>{c.name}</p>
-                  </div>
-                ))}
+                {isLoading && <Loading />}
+                {!isLoading && !data?.length && (
+                  <EmptyState text="Voeg eerst een klant toe" />
+                )}
+                {!isLoading &&
+                  data?.map((c) => (
+                    <div
+                      key={c.name}
+                      className={mergeClasses(
+                        styles.customer,
+                        selectedCustomer?.name === c.name && styles.isSelected
+                      )}
+                      onClick={() => onCustomerClick(c)}
+                    >
+                      <p style={{ margin: "0px" }}>{c.name}</p>
+                    </div>
+                  ))}
               </div>
             </DialogContent>
             <DialogActions>

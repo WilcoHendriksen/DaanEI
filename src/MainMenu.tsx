@@ -81,9 +81,6 @@ export default function MainMenu({ children }: { children: ReactNode }) {
             <MenuItem onClick={async () => await NavigateAway("/")}>
               Home
             </MenuItem>
-            <MenuItem onClick={async () => await NavigateAway("/start-list")}>
-              Start
-            </MenuItem>
             <MenuItem
               onClick={async () => await NavigateAway("/delivery-dates")}
             >
