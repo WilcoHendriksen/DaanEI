@@ -1,4 +1,5 @@
 type Order = {
+  order: number
   date: string
   name: string
   customer: Customer

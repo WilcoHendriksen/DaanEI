@@ -24,6 +24,19 @@ async function createOrder(order: Order): Promise<void> {
 }
 
 /**
+ * Create all items and saves all items to the store
+ * @param store Name of the store
+ * @param customer list of the given StoreType
+ */
+async function createOrders(order: Order[]): Promise<void> {
+  const db = await createOrOpenDatabase()
+  order.forEach(async (order) => {
+    await db.put("order", order)
+  })
+  db.close()
+}
+
+/**
  * Delete an item from the given store with the given key
  * @param store Name of the store
  * @param key Key value
@@ -52,4 +65,4 @@ async function deleteOrders(deliverDate: string): Promise<void> {
   db.close()
 }
 
-export { createOrder, deleteOrder, readOrders, deleteOrders }
+export { createOrder, createOrders, deleteOrder, readOrders, deleteOrders }
