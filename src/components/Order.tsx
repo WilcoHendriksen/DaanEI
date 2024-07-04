@@ -5,8 +5,11 @@ import {
   MailDismissRegular,
   MoneyOffRegular,
   MoneyRegular,
-  PaymentRegular
+  PaymentRegular,
+  ReOrderDotsVerticalFilled
 } from "@fluentui/react-icons"
+import { useSortable } from "@dnd-kit/sortable"
+import { CSS } from "@dnd-kit/utilities"
 
 const useStyles = makeStyles({
   main: {
@@ -14,7 +17,9 @@ const useStyles = makeStyles({
     alignItems: "center",
     height: "96px",
     padding: "12px",
-    borderBottom: "1px solid var(--colorNeutralBackground1Selected)"
+    borderBottom: "1px solid var(--colorNeutralBackground1Selected)",
+    backgroundColor: "green",
+    minHeight: "96px"
   },
   grid: {
     width: "100%",
@@ -41,8 +46,19 @@ export default function Order({
   onDelete: () => void
 }) {
   const styles = useStyles()
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: order.name })
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition
+  }
+
   return (
-    <div className={styles.main}>
+    <div className={styles.main} ref={setNodeRef} style={style}>
+      <div {...attributes} {...listeners}>
+        <ReOrderDotsVerticalFilled />
+      </div>
       <div className={styles.grid}>
         <div className={styles.text}>{order.name}</div>
         <div className={styles.text}>Aantal: {order.amount}</div>

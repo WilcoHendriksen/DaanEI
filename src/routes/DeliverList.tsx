@@ -5,9 +5,30 @@ import { AddFilled, ArrowLeftFilled } from "@fluentui/react-icons"
 import { useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import Loading from "@/components/layout/Loading"
-import { createOrder, deleteOrder } from "@/repo/OrderRepo"
+import {
+  createOrder,
+  createOrders,
+  deleteOrder,
+  deleteOrders
+} from "@/repo/OrderRepo"
 import Order from "@/components/Order"
 import EmptyState from "@/components/layout/EmptyState"
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors
+} from "@dnd-kit/core"
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy
+} from "@dnd-kit/sortable"
+import { useMutation } from "@tanstack/react-query"
 
 const useStyles = makeStyles({
   page: {
@@ -29,7 +50,8 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     flex: "1",
-    overflowY: "auto"
+    overflowY: "auto",
+    overflowX: "hidden"
   },
   customerToDeliver: {
     display: "flex",
@@ -58,12 +80,21 @@ export default function DeliverList() {
   const [open, setOpen] = useState(false)
   const { isLoading, data, refetch } = useOrder(params.date!)
 
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(TouchSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates
+    })
+  )
+
   const openOrderDialog = () => {
     setOpen(true)
   }
 
   const addOrder = async (customer: Customer, amount: number) => {
     await createOrder({
+      order: data?.length ?? 0,
       date: params.date!,
       customer: customer,
       name: customer.name,
@@ -80,6 +111,30 @@ export default function DeliverList() {
     await refetch()
   }
 
+  const handleDragEnd = async (event: any) => {
+    const { active, over } = event
+    if (active.id !== over?.id) {
+      const oldIndex = data!.findIndex((o) => o.name === active.id)
+      const newIndex = data!.findIndex((o) => o.name === over.id)
+      const newData = arrayMove(data!, oldIndex, newIndex)
+      await mutation.mutateAsync(newData)
+      await refetch()
+    }
+  }
+
+  const mutation = useMutation({
+    mutationFn: async (reorderedOrders: Order[]) => {
+      const updatedOrder = reorderedOrders.map((o, i) => {
+        let newOrder = { ...o }
+        newOrder.order = i
+        return newOrder
+      })
+      await deleteOrders(updatedOrder[0].date)
+      await createOrders(updatedOrder)
+    }
+  })
+  const ordersToRender = data?.sort((a, b) => a.order - b.order)
+
   return (
     <div className={styles.page}>
       <div className={styles.title}>
@@ -87,17 +142,29 @@ export default function DeliverList() {
       </div>
       <div className={styles.deliverList}>
         {isLoading && <Loading />}
-        {!isLoading && !data?.length && (
+        {!isLoading && !ordersToRender?.length && (
           <EmptyState text="Geen bezorg orders" />
         )}
-        {!isLoading &&
-          data?.map((order) => (
-            <Order
-              key={order.name}
-              order={order}
-              onDelete={() => onDeleteOrder(order)}
-            />
-          ))}
+        {!isLoading && (
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext
+              items={ordersToRender!.map((x) => x.name)}
+              strategy={verticalListSortingStrategy}
+            >
+              {ordersToRender?.map((order) => (
+                <Order
+                  key={order.name}
+                  order={order}
+                  onDelete={() => onDeleteOrder(order)}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
+        )}
       </div>
       <div className={styles.buttonBar}>
         <Button
