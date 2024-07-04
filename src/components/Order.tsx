@@ -16,17 +16,16 @@ const useStyles = makeStyles({
     display: "flex",
     alignItems: "center",
     height: "96px",
-    padding: "12px",
+    padding: "8px",
     borderBottom: "1px solid var(--colorNeutralBackground1Selected)",
-    backgroundColor: "green",
     minHeight: "96px"
   },
   grid: {
     width: "100%",
-    marginLeft: "16px",
+    marginLeft: "8px",
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
-    gridTemplateRows: "32px 32px 32px",
+    gridTemplateRows: "24px 24px 24px",
     gap: "0px 0px",
     "& > div": {
       display: "flex",
@@ -35,8 +34,7 @@ const useStyles = makeStyles({
         marginRight: "8px"
       }
     }
-  },
-  text: {}
+  }
 })
 export default function Order({
   order,
@@ -46,26 +44,25 @@ export default function Order({
   onDelete: () => void
 }) {
   const styles = useStyles()
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: order.name })
+  const { attributes, listeners, setNodeRef, transform } = useSortable({
+    id: order.name
+  })
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition
+    transition: "150"
   }
 
   return (
     <div className={styles.main} ref={setNodeRef} style={style}>
-      <div {...attributes} {...listeners}>
-        <ReOrderDotsVerticalFilled />
+      <div {...attributes} {...listeners} style={{ touchAction: "none" }}>
+        <ReOrderDotsVerticalFilled fontSize={32} />
       </div>
       <div className={styles.grid}>
-        <div className={styles.text}>{order.name}</div>
-        <div className={styles.text}>Aantal: {order.amount}</div>
-        <div className={styles.text}>{order.customer.address}</div>
-        <div className={styles.text}>
-          Bedrag: € {(order.amount * 0.22).toFixed(2)}
-        </div>
+        <div>{order.name}</div>
+        <div>Aantal: {order.amount}</div>
+        <div>{order.customer.address}</div>
+        <div>Bedrag: € {(order.amount * 0.22).toFixed(2)}</div>
         <div>
           <PaymentRegular />
           {order.payment}
