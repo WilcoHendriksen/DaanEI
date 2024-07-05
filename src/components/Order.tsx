@@ -10,6 +10,7 @@ import {
 } from "@fluentui/react-icons"
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
+import { useState } from "react"
 
 const useStyles = makeStyles({
   main: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles({
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
     gridTemplateRows: "24px 24px 24px",
+    userSelect: "none",
     gap: "0px 0px",
     "& > div": {
       display: "flex",
@@ -44,6 +46,7 @@ export default function Order({
   onDelete: () => void
 }) {
   const styles = useStyles()
+  const [longPressedActive, setLongPressedActive] = useState(false)
   const { attributes, listeners, setNodeRef, transform } = useSortable({
     id: order.name
   })
@@ -53,12 +56,34 @@ export default function Order({
     transition: "150"
   }
 
+  let timer: NodeJS.Timeout | null
+  const onTouchStart = (_e: React.TouchEvent<HTMLElement>) => {
+    if (!timer) {
+      timer = setTimeout(() => {
+        timer = null
+        setLongPressedActive(true)
+      }, 1500)
+    }
+  }
+
+  const onTouchEnd = () => {
+    if (timer) {
+      clearTimeout(timer)
+      timer = null
+    }
+  }
+
   return (
     <div className={styles.main} ref={setNodeRef} style={style}>
       <div {...attributes} {...listeners} style={{ touchAction: "none" }}>
         <ReOrderDotsVerticalFilled fontSize={32} />
       </div>
-      <div className={styles.grid}>
+      <div
+        className={styles.grid}
+        onTouchStart={(e) => onTouchStart(e)}
+        onTouchEnd={onTouchEnd}
+        onClick={() => setLongPressedActive(false)}
+      >
         <div>{order.name}</div>
         <div>Aantal: {order.amount}</div>
         <div>{order.customer.address}</div>
@@ -80,12 +105,23 @@ export default function Order({
           betaald: {order.hasPaid ? "ja" : "nee"}
         </div>
       </div>
-      <Button
-        shape="circular"
-        size="large"
-        icon={<DeleteFilled />}
-        onClick={onDelete}
-      ></Button>
+      {longPressedActive && (
+        <div
+          style={{
+            backgroundColor: "red",
+            height: "96px",
+            display: "flex",
+            alignItems: "center"
+          }}
+        >
+          <Button
+            shape="circular"
+            size="large"
+            icon={<DeleteFilled />}
+            onClick={onDelete}
+          />
+        </div>
+      )}
     </div>
   )
 }
