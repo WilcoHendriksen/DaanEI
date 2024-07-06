@@ -1,4 +1,4 @@
-import { Button, makeStyles } from "@fluentui/react-components"
+import { Button, makeStyles, mergeClasses } from "@fluentui/react-components"
 import {
   DeleteFilled,
   MailCheckmarkRegular,
@@ -11,13 +11,13 @@ import {
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import { useState } from "react"
+import { useSwipeable } from "react-swipeable"
 
 const useStyles = makeStyles({
   main: {
     display: "flex",
     alignItems: "center",
     height: "96px",
-    padding: "8px",
     borderBottom: "1px solid var(--colorNeutralBackground1Selected)",
     minHeight: "96px"
   },
@@ -36,6 +36,17 @@ const useStyles = makeStyles({
         marginRight: "8px"
       }
     }
+  },
+  deleteButton: {
+    backgroundColor: "darkred",
+    width: "0px",
+    height: "96px",
+    display: "flex",
+    alignItems: "center",
+    transition: "width 1s ease"
+  },
+  transform: {
+    width: "48px"
   }
 })
 export default function Order({
@@ -47,6 +58,10 @@ export default function Order({
 }) {
   const styles = useStyles()
   const [longPressedActive, setLongPressedActive] = useState(false)
+  const handlers = useSwipeable({
+    onSwipedLeft: () => alert("left: " + order),
+    onSwipedRight: () => console.log("right: " + order)
+  })
   const { attributes, listeners, setNodeRef, transform } = useSortable({
     id: order.name
   })
@@ -62,7 +77,7 @@ export default function Order({
       timer = setTimeout(() => {
         timer = null
         setLongPressedActive(true)
-      }, 1500)
+      }, 1000)
     }
   }
 
@@ -76,13 +91,14 @@ export default function Order({
   return (
     <div className={styles.main} ref={setNodeRef} style={style}>
       <div {...attributes} {...listeners} style={{ touchAction: "none" }}>
-        <ReOrderDotsVerticalFilled fontSize={32} />
+        <ReOrderDotsVerticalFilled fontSize={24} />
       </div>
       <div
         className={styles.grid}
         onTouchStart={(e) => onTouchStart(e)}
         onTouchEnd={onTouchEnd}
         onClick={() => setLongPressedActive(false)}
+        {...handlers}
       >
         <div>{order.name}</div>
         <div>Aantal: {order.amount}</div>
@@ -105,23 +121,20 @@ export default function Order({
           betaald: {order.hasPaid ? "ja" : "nee"}
         </div>
       </div>
-      {longPressedActive && (
-        <div
-          style={{
-            backgroundColor: "red",
-            height: "96px",
-            display: "flex",
-            alignItems: "center"
-          }}
-        >
-          <Button
-            shape="circular"
-            size="large"
-            icon={<DeleteFilled />}
-            onClick={onDelete}
-          />
-        </div>
-      )}
+      <div
+        className={mergeClasses(
+          styles.deleteButton,
+          longPressedActive && styles.transform
+        )}
+      >
+        <Button
+          style={{ marginLeft: "4px", marginRight: "4px" }}
+          shape="circular"
+          size="large"
+          icon={<DeleteFilled />}
+          onClick={onDelete}
+        />
+      </div>
     </div>
   )
 }

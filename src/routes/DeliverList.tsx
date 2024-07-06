@@ -59,10 +59,6 @@ const useStyles = makeStyles({
     alignItems: "center",
     borderBottom: "1px solid var(--colorNeutralBackground1Selected)"
   },
-  order: {
-    height: "48px",
-    backgroundColor: "green"
-  },
   buttonBar: {
     display: "flex",
     flexDirection: "column",
