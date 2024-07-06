@@ -59,8 +59,8 @@ export default function Order({
   const styles = useStyles()
   const [longPressedActive, setLongPressedActive] = useState(false)
   const handlers = useSwipeable({
-    onSwipedLeft: () => alert("left: " + order),
-    onSwipedRight: () => console.log("right: " + order)
+    onSwipedLeft: () => alert("left: " + JSON.stringify(order)),
+    onSwipedRight: () => alert("right: " + JSON.stringify(order))
   })
   const { attributes, listeners, setNodeRef, transform } = useSortable({
     id: order.name
