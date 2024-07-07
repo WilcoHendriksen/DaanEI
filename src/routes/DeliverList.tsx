@@ -1,7 +1,18 @@
 import useOrder from "@/queries/useOrders"
 import AddCustomerDialog from "../components/AddOrderDialog"
-import { Button, Title3, makeStyles } from "@fluentui/react-components"
-import { AddFilled, ArrowLeftFilled } from "@fluentui/react-icons"
+import {
+  Button,
+  Title3,
+  ToggleButton,
+  makeStyles
+} from "@fluentui/react-components"
+import {
+  AddFilled,
+  ArrowLeftFilled,
+  bundleIcon,
+  EyeFilled,
+  EyeOffFilled
+} from "@fluentui/react-icons"
 import { useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import Loading from "@/components/layout/Loading"
@@ -74,6 +85,7 @@ export default function DeliverList() {
   let styles = useStyles()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
+  const [hideDelivered, setHideDelivered] = useState(true)
   const { isLoading, data, refetch } = useOrder(params.date!)
 
   const sensors = useSensors(
@@ -95,8 +107,6 @@ export default function DeliverList() {
       customer: customer,
       name: customer.name,
       amount: amount,
-      hasPaid: false,
-      isDelivered: false,
       payment: customer.payment
     })
     await refetch()
@@ -129,12 +139,25 @@ export default function DeliverList() {
       await createOrders(updatedOrder)
     }
   })
-  const ordersToRender = data?.sort((a, b) => a.order - b.order)
 
+  let filteredOrders: Order[] = data ?? []
+  if (hideDelivered)
+    filteredOrders = data?.filter((o) => o.payment === "") ?? []
+
+  const ordersToRender = filteredOrders?.sort((a, b) => a.order - b.order)
+
+  const HideDeliverdIcon = bundleIcon(EyeFilled, EyeOffFilled)
   return (
     <div className={styles.page}>
       <div className={styles.title}>
         <Title3>Bezorglijst: {params.date}</Title3>
+        <ToggleButton
+          style={{ marginLeft: "8px" }}
+          shape="circular"
+          size="large"
+          icon={<HideDeliverdIcon />}
+          onClick={() => setHideDelivered(!hideDelivered)}
+        />
       </div>
       <div className={styles.deliverList}>
         {isLoading && <Loading />}

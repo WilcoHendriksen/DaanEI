@@ -17,10 +17,10 @@ export default defineConfig({
       },
 
       manifest: {
-        name: "daan-ei",
-        short_name: "daan-ei",
+        name: "Daan's EI app",
+        short_name: "Daan's EI app",
         description: "Egglist for my son to keep track of customers",
-        theme_color: "#07da63"
+        theme_color: "#292929"
       },
 
       workbox: {

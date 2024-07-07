@@ -3,6 +3,6 @@ type Customer = {
   phoneNumber: string
   address: string
   amount: number
-  payment: Payment
+  payment: "tikkie" | "contant" | ""
   isFavorite: boolean
 }
