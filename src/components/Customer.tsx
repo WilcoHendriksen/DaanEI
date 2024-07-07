@@ -1,10 +1,5 @@
 import { Avatar, Button, makeStyles } from "@fluentui/react-components"
-import {
-  DeleteFilled,
-  EditFilled,
-  StarFilled,
-  StarRegular
-} from "@fluentui/react-icons"
+import { DeleteFilled, EditFilled } from "@fluentui/react-icons"
 
 const useStyles = makeStyles({
   main: {
@@ -39,16 +34,7 @@ export default function Customer({
   const styles = useStyles()
   return (
     <div className={styles.main}>
-      <Avatar
-        name={customer.name}
-        badge={{
-          icon: customer.isFavorite ? (
-            <StarFilled color="yellow" />
-          ) : (
-            <StarRegular color="yellow" />
-          )
-        }}
-      />
+      <Avatar name={customer.name} />
       <div className={styles.grid}>
         <div className={styles.text}>{customer.name}</div>
         <div className={styles.text}>{customer.amount}</div>

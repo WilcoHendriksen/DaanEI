@@ -107,7 +107,7 @@ export default function DeliverList() {
       customer: customer,
       name: customer.name,
       amount: amount,
-      payment: customer.payment
+      payment: ""
     })
     await refetch()
   }
