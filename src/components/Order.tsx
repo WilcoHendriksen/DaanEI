@@ -32,7 +32,6 @@ const useStyles = makeStyles({
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
     gridTemplateRows: "24px 24px 24px",
-    userSelect: "none",
     gap: "0px 0px",
     "& > div": {
       display: "flex",
