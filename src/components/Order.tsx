@@ -74,10 +74,8 @@ export default function Order({
 }) {
   const styles = useStyles()
   const [longPressedActive, setLongPressedActive] = useState(false)
-  // const [swipeLeftActive, setSwipeLeftActive] = useState(false)
   const [swipeRightActive, setSwipeRightActive] = useState(false)
   const handlers = useSwipeable({
-    // onSwipedLeft: () => onSwipeLeft(),
     onSwipedRight: () => onSwipeRight()
   })
   const { attributes, listeners, setNodeRef, transform } = useSortable({
@@ -110,14 +108,8 @@ export default function Order({
     setSwipeRightActive(true)
   }
 
-  // const onSwipeLeft = () => {
-  //   onTouchEnd()
-  //   setSwipeLeftActive(true)
-  // }
-
   const onPaidWithMoney = async (order: Order) => {
     resetView()
-    // betaald ja, afgeleverd en contant
     await createOrUpdateOrder({
       ...order,
       payment: "contant"
@@ -127,7 +119,6 @@ export default function Order({
 
   const onPaidingWithTikkie = async (order: Order) => {
     resetView()
-    // betaald nee, afgeleverd en tikkie
     await createOrUpdateOrder({
       ...order,
       payment: "tikkie"
@@ -137,7 +128,6 @@ export default function Order({
 
   const onResetPayment = async (order: Order) => {
     resetView()
-    // betaald nee, niet afgeleverd tikkie/contant blijft staan.
     await createOrUpdateOrder({
       ...order,
       payment: ""
@@ -148,7 +138,6 @@ export default function Order({
   const resetView = () => {
     setLongPressedActive(false)
     setSwipeRightActive(false)
-    // setSwipeLeftActive(false)
   }
 
   return (

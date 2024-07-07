@@ -31,13 +31,6 @@ const useStyles = makeStyles({
     flexDirection: "column",
     gap: "16px"
   }
-  // buttonBar: {
-  //   display: "flex",
-  //   flex: "none",
-  //   flexDirection: "row-reverse",
-  //   padding: "16px",
-  //   borderTop: "1px solid var(--colorNeutralBackground1Selected)"
-  // }
 })
 
 export default function CustomerList() {

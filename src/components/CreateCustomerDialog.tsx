@@ -1,6 +1,5 @@
 import {
   Button,
-  Checkbox,
   Dialog,
   DialogActions,
   DialogBody,
@@ -10,7 +9,6 @@ import {
   DialogTrigger,
   Field,
   Input,
-  Select,
   makeStyles
 } from "@fluentui/react-components"
 import { AddFilled, ArrowLeftFilled, SaveRegular } from "@fluentui/react-icons"
@@ -62,15 +60,6 @@ export default function CreateCustomerDialog({
               </Field>
               <Field label="Standaard aantal eieren">
                 <Input type="number" {...register("amount")} />
-              </Field>
-              <Field label="Standaard betaalmethode">
-                <Select {...register("payment")}>
-                  <option>tikkie</option>
-                  <option>contant</option>
-                </Select>
-              </Field>
-              <Field label="Favoriet">
-                <Checkbox {...register("isFavorite")} />
               </Field>
             </DialogContent>
             <DialogActions

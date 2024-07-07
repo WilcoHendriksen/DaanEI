@@ -4,5 +4,4 @@ type Customer = {
   address: string
   amount: number
   payment: "tikkie" | "contant" | ""
-  isFavorite: boolean
 }
