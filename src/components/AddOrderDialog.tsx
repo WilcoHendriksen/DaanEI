@@ -24,13 +24,12 @@ const useStyles = makeStyles({
     padding: "16px",
     gap: "16px",
     flex: "1",
-    overflowY: "hidden"
+    overflowY: "auto"
   },
   selectList: {
     display: "flex",
     flex: "1",
-    flexDirection: "column",
-    overflowY: "auto"
+    flexDirection: "column"
   },
   customer: {
     height: "48px",
