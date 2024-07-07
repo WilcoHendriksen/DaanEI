@@ -2,9 +2,6 @@ import { Button, makeStyles, mergeClasses } from "@fluentui/react-components"
 import {
   ArrowResetFilled,
   DeleteFilled,
-  MailCheckmarkRegular,
-  MailDismissRegular,
-  MoneyOffRegular,
   MoneyRegular,
   PaymentRegular,
   ReOrderDotsVerticalFilled,
@@ -123,9 +120,7 @@ export default function Order({
     // betaald ja, afgeleverd en contant
     await createOrUpdateOrder({
       ...order,
-      payment: "contant",
-      isDelivered: true,
-      hasPaid: true
+      payment: "contant"
     })
     await refetch()
   }
@@ -135,9 +130,7 @@ export default function Order({
     // betaald nee, afgeleverd en tikkie
     await createOrUpdateOrder({
       ...order,
-      payment: "tikkie",
-      isDelivered: true,
-      hasPaid: false
+      payment: "tikkie"
     })
     await refetch()
   }
@@ -147,8 +140,7 @@ export default function Order({
     // betaald nee, niet afgeleverd tikkie/contant blijft staan.
     await createOrUpdateOrder({
       ...order,
-      isDelivered: false,
-      hasPaid: false
+      payment: ""
     })
     await refetch()
   }
@@ -200,24 +192,13 @@ export default function Order({
         {...handlers}
       >
         <div>{order.name}</div>
-        <div>Aantal: {order.amount}</div>
         <div>{order.customer.address}</div>
+        <div>{order.customer.phoneNumber}</div>
         <div>Bedrag: € {(order.amount * 0.22).toFixed(2)}</div>
+        <div>Aantal: {order.amount}</div>
         <div>
           <PaymentRegular />
           {order.payment}
-        </div>
-        <div>
-          {order.isDelivered ? (
-            <MailCheckmarkRegular />
-          ) : (
-            <MailDismissRegular />
-          )}
-          afgeleverd: {order.isDelivered ? "ja" : "nee"}
-        </div>
-        <div>
-          {order.hasPaid ? <MoneyRegular /> : <MoneyOffRegular />}
-          betaald: {order.hasPaid ? "ja" : "nee"}
         </div>
       </div>
       <div
