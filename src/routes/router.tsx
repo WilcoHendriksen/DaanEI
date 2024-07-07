@@ -3,6 +3,7 @@ import Root from "./Root"
 import DeliveryDates from "./DeliveryDates"
 import CustomerList from "./CustomerList"
 import DeliverList from "./DeliverList"
+import Home from "@/routes/Home"
 
 export const router = createBrowserRouter(
   [
@@ -12,7 +13,11 @@ export const router = createBrowserRouter(
       children: [
         {
           path: "",
-          element: <div>home</div>
+          element: <Home />
+        },
+        {
+          path: "/home",
+          element: <Home />
         },
         {
           path: "delivery-dates",

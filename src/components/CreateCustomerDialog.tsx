@@ -13,6 +13,7 @@ import {
   Select,
   makeStyles
 } from "@fluentui/react-components"
+import { AddFilled, ArrowLeftFilled, SaveRegular } from "@fluentui/react-icons"
 import { SubmitHandler, useForm } from "react-hook-form"
 
 const useStyles = makeStyles({
@@ -43,7 +44,7 @@ export default function CreateCustomerDialog({
   return (
     <Dialog open={open} onOpenChange={(_event, data) => setOpen(data.open)}>
       <DialogTrigger disableButtonEnhancement>
-        <Button>Maak een klant</Button>
+        <Button shape="circular" size="large" icon={<AddFilled />} />
       </DialogTrigger>
       <DialogSurface style={{ height: "100%" }}>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -72,18 +73,24 @@ export default function CreateCustomerDialog({
                 <Checkbox {...register("isFavorite")} />
               </Field>
             </DialogContent>
-            <DialogActions>
+            <DialogActions
+              style={{ position: "absolute", right: "8px", bottom: "8px" }}
+            >
               <Button
                 appearance="secondary"
+                shape="circular"
+                size="large"
                 type="button"
+                icon={<ArrowLeftFilled />}
                 onClick={() => setOpen(false)}
-              >
-                Sluit
-              </Button>
+              />
               <DialogTrigger disableButtonEnhancement>
-                <Button type="submit" appearance="primary">
-                  Voeg toe
-                </Button>
+                <Button
+                  shape="circular"
+                  size="large"
+                  type="submit"
+                  icon={<SaveRegular />}
+                />
               </DialogTrigger>
             </DialogActions>
           </DialogBody>

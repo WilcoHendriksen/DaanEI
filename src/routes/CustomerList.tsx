@@ -1,4 +1,4 @@
-import { makeStyles } from "@fluentui/react-components"
+import { Button, makeStyles } from "@fluentui/react-components"
 import Loading from "../components/layout/Loading"
 import EmptyState from "../components/layout/EmptyState"
 import CreateCustomerDialog from "../components/CreateCustomerDialog"
@@ -7,6 +7,8 @@ import Customer from "../components/Customer"
 import { useState } from "react"
 import useCustomers from "../queries/useCustomers"
 import { createCustomer, deleteCustomer } from "../repo/CustomerRepo"
+import { useNavigate } from "react-router-dom"
+import { ArrowLeftFilled } from "@fluentui/react-icons"
 
 const useStyles = makeStyles({
   page: {
@@ -22,12 +24,20 @@ const useStyles = makeStyles({
     overflowY: "auto"
   },
   buttonBar: {
+    position: "absolute",
+    right: "16px",
+    bottom: "16px",
     display: "flex",
-    flex: "none",
-    flexDirection: "row-reverse",
-    padding: "16px",
-    borderTop: "1px solid var(--colorNeutralBackground1Selected)"
+    flexDirection: "column",
+    gap: "16px"
   }
+  // buttonBar: {
+  //   display: "flex",
+  //   flex: "none",
+  //   flexDirection: "row-reverse",
+  //   padding: "16px",
+  //   borderTop: "1px solid var(--colorNeutralBackground1Selected)"
+  // }
 })
 
 export default function CustomerList() {
@@ -37,7 +47,7 @@ export default function CustomerList() {
     undefined
   )
   const { data, isLoading, refetch } = useCustomers()
-
+  const navigate = useNavigate()
   const onSubmit: SubmitHandler<Customer> = async (data: Customer) => {
     if (customerToEdit) await deleteCustomer(customerToEdit.name)
     setCustomerToEdit(undefined)
@@ -76,6 +86,13 @@ export default function CustomerList() {
       </div>
 
       <div className={styles.buttonBar}>
+        <Button
+          type="button"
+          onClick={() => navigate("/home")}
+          shape="circular"
+          size="large"
+          icon={<ArrowLeftFilled />}
+        />
         <CreateCustomerDialog
           open={open}
           setOpen={setOpen}
