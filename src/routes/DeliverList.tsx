@@ -6,7 +6,7 @@ import { useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import Loading from "@/components/layout/Loading"
 import {
-  createOrder,
+  createOrUpdateOrder,
   createOrders,
   deleteOrder,
   deleteOrders
@@ -89,7 +89,7 @@ export default function DeliverList() {
   }
 
   const addOrder = async (customer: Customer, amount: number) => {
-    await createOrder({
+    await createOrUpdateOrder({
       order: data?.length ?? 0,
       date: params.date!,
       customer: customer,
@@ -156,6 +156,7 @@ export default function DeliverList() {
                   key={order.name}
                   order={order}
                   onDelete={() => onDeleteOrder(order)}
+                  refetch={refetch}
                 />
               ))}
             </SortableContext>

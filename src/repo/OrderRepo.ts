@@ -17,7 +17,7 @@ async function readOrders(date: string): Promise<Order[]> {
  * @param store Name of the store
  * @param customer list of the given StoreType
  */
-async function createOrder(order: Order): Promise<void> {
+async function createOrUpdateOrder(order: Order): Promise<void> {
   const db = await createOrOpenDatabase()
   await db.put("order", order)
   db.close()
@@ -65,4 +65,10 @@ async function deleteOrders(deliverDate: string): Promise<void> {
   db.close()
 }
 
-export { createOrder, createOrders, deleteOrder, readOrders, deleteOrders }
+export {
+  createOrUpdateOrder,
+  createOrders,
+  deleteOrder,
+  readOrders,
+  deleteOrders
+}
